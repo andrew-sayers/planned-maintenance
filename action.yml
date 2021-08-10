@@ -1,0 +1,26 @@
+name: Planned maintenance
+
+description: Allow or deny branches based on the time and branch name
+
+inputs:
+  branch-regexp:
+    description: "A branch that matches this pattern is considered a maintenance branch"
+    required: true
+    default: "^maint-"
+  maintenance-window-start:
+    description: "Deny maintenance branches before this time, deny everything else after it"
+    required: true
+  maintenance-window-end:
+    description: "Deny maintenance branches after this time, deny everything else before it"
+    required: true
+  maintenance-url:
+    description: "URL with more information about this maintenace"
+    required: false
+
+outputs:
+  message:
+    description: "Explanation about why your branch was rejected"
+
+runs:
+  using: "node12"
+  main: "index.js"
