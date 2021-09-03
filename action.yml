@@ -3,18 +3,14 @@ name: Planned maintenance
 description: Allow or deny branches based on the time and branch name
 
 inputs:
-  branch-regexp:
-    description: "A branch that matches this pattern is considered a maintenance branch"
-    required: true
-    default: "^maint-"
   maintenance-window-start:
-    description: "Deny maintenance branches before this time, deny everything else after it"
+    description: "Time when the maintenance window will open.  After this point, the checklist will be enabled and the action will fail"
     required: true
-  maintenance-window-end:
-    description: "Deny maintenance branches after this time, deny everything else before it"
+  maintenance-window-duration:
+    description: "Number of milliseconds the maintenance window will remain open for"
     required: true
   maintenance-url:
-    description: "URL with more information about this maintenace"
+    description: "URL with more information about this maintenance, will be displayed in error output"
     required: false
 
 outputs:
