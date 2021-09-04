@@ -147,7 +147,7 @@ export default {
     },
 
     load_data(url) {
-      return fetch(url)
+      return fetch(url,{mode:'no-cors'})
         .then( response => response.text() )
         .then( text => {
 
