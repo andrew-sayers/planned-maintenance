@@ -102,7 +102,7 @@ export default {
          .join(':')
       );
       switch ( this.status ) {
-        case 'before-start': return `Maintenance window will open in ${clock_text} for ${Math.floor(this.duration/1000)} minutes`;
+        case 'before-start': return `Maintenance window will open in ${clock_text} for ${Math.floor(this.duration/(60*1000))} minutes`;
         case 'window-open' : return `Maintenance window open!  Will close in ${clock_text}`;
         case 'window-closed': return 'Maintenance window closed';
         default: return `Maintenance countdown.  To use this page, create a URL like: <tt>${location.href.replace(/#.*/,'')}#<em>//example.com/info.js</em></tt>`;
