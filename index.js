@@ -54,11 +54,11 @@ Maintenance window duration: ${new Date(time_end)}`
  */
 
 const message = check_maintenance_window(
-    /* Used by unit tests: */
+    /* Used by unit tests: * /
     process.env.maintenance_window_start,
     process.env.maintenance_window_duration,
     process.env.maintenance_url
-    /** /
+    /**/
     // Used in production:
     core.getInput("maintenance-window-start"),
     core.getInput("maintenance-window-duration"),
