@@ -147,30 +147,33 @@ export default {
     },
 
     load_data(url) {
-      return fetch(url,{mode:'no-cors'})
-        .then( response => response.text() )
-        .then( text => {
+      const old_handle_data = window.handle_data,
+            script = document.createElement("SCRIPT")
+      ;
+      window.handle_data = data => {
 
-          const old_handle_data = window.handle_data;
-          window.handle_data = data => this.maintenance_data = data;
-          Function(text)();
-          window.handle_data = old_handle_data;
+        window.handle_data = old_handle_data;
+        this.maintenance_data = data;
 
-          this.update();
-          github_api.set_error_reporter = error => this.error = error;
-          this.steps.forEach(
-            step => step.actions.forEach( action => {
-              this.$set( action, "data", {} );
-              this.$set( action, "status", {} );
-            })
-          );
-          github_api.prepare_steps( this.steps );
+        this.update();
 
-          this.$nextTick(
-            () => this.step_no = parseInt(sessionStorage.getItem('step_no')||'1',10)||1
-          );
+        github_api.set_error_reporter = error => this.error = error;
+        this.steps.forEach(
+          step => step.actions.forEach( action => {
+            this.$set( action, "data", {} );
+            this.$set( action, "status", {} );
+          })
+        );
+        github_api.prepare_steps( this.steps );
 
-        });
+        setInterval( () => this.update(), 500 );
+        this.status = "initialised";
+        this.$nextTick(
+          () => this.step_no = parseInt(sessionStorage.getItem('step_no')||'1',10)||1
+        );
+      };
+      script.setAttribute( "src", url );
+      document.head.appendChild(script);
     },
 
   },
@@ -188,10 +191,7 @@ export default {
     if ( location.hash.length ) {
       let hash = location.hash.substr(1);
       if ( hash.search(/:\/\//) == -1 ) hash = 'https://' + hash;
-      this.load_data(hash).then( () => {
-        setInterval( () => this.update(), 500 );
-        this.status = "initialised";
-      });
+      this.load_data(hash);
       this.status = "loading";
     } else {
       this.status = "location-required";
