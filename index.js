@@ -19,11 +19,11 @@ function check_maintenance_window(
     );
 
     if ( isNaN(time_begin) ) {
-        core.setFailed(`Invalid value for maintenance_window_start`);
+        core.setFailed(`Invalid value '${maintenance_window_start}' for maintenance_window_start`);
         return `Please fix maintenance_window_start to be a valid date: ${maintenance_window_start}`;
     }
     if ( isNaN(maintenance_window_duration) ) {
-        core.setFailed(`Invalid value for maintenance_window_duration`);
+        core.setFailed(`Invalid value '${maintenance_window_duration}' for maintenance_window_duration`);
         return `Please fix maintenance_window_duration to be a number of milliseconds: ${maintenance_window_duration}`;
     }
 
