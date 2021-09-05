@@ -170,7 +170,9 @@ export default {
                                       success &= data.workflow_runs[0].conclusion=='success';
                                       callbacks = callbacks.filter( cb => cb != callback );
                                   }
-                              });
+                              })
+                              .catch( () => callbacks = callbacks.filter( cb => cb != callback ) )
+                        ;
                         if ( action.action == "run_workflow" ) {
                             promises.push(
                                 github_post(
