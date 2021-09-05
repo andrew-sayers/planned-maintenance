@@ -88,6 +88,7 @@ export default {
       switch ( this.status ) {
         case 'before-start': return 'yellow darken-1';
         case 'window-open' : return 'green';
+        case 'window-disabled':
         case 'window-closed': return 'red';
         default: return 'blue-grey';
       }
@@ -105,6 +106,7 @@ export default {
         case 'before-start': return `Maintenance window will open in ${clock_text} for ${Math.floor(this.duration/(60*1000))} minutes`;
         case 'window-open' : return `Maintenance window open!  Will close in ${clock_text}`;
         case 'window-closed': return 'Maintenance window closed';
+        case 'window-disabled': return 'Maintenance window disabled';
         default: return `Maintenance countdown.  To use this page, create a URL like: <tt>${location.href.replace(/#.*/,'')}#<em>//example.com/info.js</em></tt>`;
       }
     },
@@ -135,7 +137,9 @@ export default {
 
     update() {
       const now = new Date().getTime();
-      if ( now < this.start ) {
+      if ( !this.maintenance_data["maintenance-window-enabled"] ) {
+        this.status = "window-disabled";
+      } else if ( now < this.start ) {
         this.status = "before-start";
         this.time_to_next_event = ( this.start - now ) / 1000;
       } else if ( now < this.end ) {
