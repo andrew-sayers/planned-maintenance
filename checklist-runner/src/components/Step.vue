@@ -186,7 +186,16 @@
                                 </template>
 
                                 <template v-else-if="action.action=='create_branch'">
-                                    <td></td>
+                                    <td>
+                                        <Label
+                                          :started="action.status"
+                                          :active="true"
+                                          :completed="action.status != 'loading'"
+                                          :success="action.status==`doesn't exist`"
+                                          :message="action.status"
+                                          :href="`https://github.com/${action.owner}/${action.repo}/tree/${action.destination}`"
+                                        />
+                                    </td>
                                     <td>
                                         <a :href="`https://github.com/${action.owner}/${action.repo}/tree/${action.destination}`">
                                             {{action.owner}}/{{action.repo}}/{{action.destination}}
@@ -201,7 +210,16 @@
                                 </template>
 
                                 <template v-else-if="action.action=='delete_branch'">
-                                    <td></td>
+                                    <td>
+                                        <Label
+                                          :started="action.status"
+                                          :active="true"
+                                          :completed="action.status != 'loading'"
+                                          :success="action.status==`exists`"
+                                          :message="action.status"
+                                          :href="`https://github.com/${action.owner}/${action.repo}/tree/${action.destination}`"
+                                        />
+                                    </td>
                                     <td>
                                         <a :href="`https://github.com/${action.owner}/${action.repo}/tree/${action.name}`">
                                             {{action.owner}}/{{action.repo}}/{{action.name}}

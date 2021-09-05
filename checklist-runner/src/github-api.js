@@ -113,8 +113,22 @@ export default {
                 switch ( action.action ) {
                 case "check_site":
                 case "add_comment":
+                    break;
                 case "create_branch":
+                    action.status = 'loading';
+                    get_url(
+                        `/repos/${action.owner}/${action.repo}/git/ref/heads/${action.destination}`,
+                        () => false,
+                    )
+                        .then( data => action.status = data.ref ? "exists" : "doesn't exist" )
+                    break;
                 case "delete_branch":
+                    action.status = 'loading';
+                    get_url(
+                        `/repos/${action.owner}/${action.repo}/git/ref/heads/${action.name}`,
+                        () => false,
+                    )
+                        .then( data => action.status = data.ref ? "exists" : "doesn't exist" )
                     break;
                 case "accept_pr":
                     get_url(`/repos/${action.owner}/${action.repo}/pulls/${action.id}`)
