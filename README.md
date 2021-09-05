@@ -14,6 +14,10 @@ This repository includes an action that will only succeed outside the maintenanc
 
 **Required** Number of milliseconds the maintenance window will remain open for
 
+### `maintenance-window-enabled`
+
+**Required** Whether to check the maintenance window at all
+
 ### `maintenance-url`
 
 **Optional** URL with more information about this maintenance, will be displayed in error output

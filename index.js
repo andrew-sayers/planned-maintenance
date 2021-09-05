@@ -4,12 +4,16 @@ const { spawnSync } = require('child_process');
 /*
  * Main function
  */
-
 function check_maintenance_window(
     maintenance_window_start,
     maintenance_window_duration,
+    maintenance_enabled,
     maintenance_url
 ) {
+
+    if ( !maintenance_enabled ) {
+        return `No maintenance window is currently scheduled.`;
+    }
 
     const time_begin = new Date(maintenance_window_start).getTime();
     const time_end   = time_begin + (
@@ -57,11 +61,13 @@ const message = check_maintenance_window(
     /* Used by unit tests: * /
     process.env.maintenance_window_start,
     process.env.maintenance_window_duration,
+    process.env.maintenance_enabled,
     process.env.maintenance_url
     /**/
     // Used in production:
     core.getInput("maintenance-window-start"),
     core.getInput("maintenance-window-duration"),
+    core.getInput("maintenance-enabled"),
     core.getInput("maintenance-url")
     /**/
 );
