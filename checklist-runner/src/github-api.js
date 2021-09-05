@@ -37,11 +37,23 @@ function github_send(url,init,onerror) {
     }
     return (
         fetch(`https://api.github.com${url}`,init)
+            .then( response => {
+                if ( !response.ok ) {
+                    onerror
+                        ? onerror(response.statusText)
+                        : error_reporter(`https://api.github.com${url}: ${response.statusText}`)
+                    throw new Error("Request failed: " + response.statusText);
+                }
+                return response;
+            })
             .catch(
-                error =>
-                onerror
-                    ? onerror(error)
-                    : error_reporter(`https://api.github.com${url}: ${error}`)
+                error => {
+                    onerror
+                        ? onerror(error)
+                        : error_reporter(`https://api.github.com${url}: ${error}`)
+                    ;
+                    throw error;
+                }
             )
     );
 }
