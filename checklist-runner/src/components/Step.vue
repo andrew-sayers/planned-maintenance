@@ -109,6 +109,13 @@
                     <li><a href="https://github.com/settings/tokens">Go to your tokens page</a></li>
                     <li>Click <em>Delete</em> for the token with the URL of the maintenance issue</li>
                 </ol>
+                <h2>Disable the maintenance process</h2>
+                <p>Scripts that check this should no longer run.</p>
+                <ol>
+                    <li>Edit the maintenance file</li>
+                    <li>Change <tt>maintenance-enabled</tt> to <tt>false</tt></li>
+                    <li>Push the change</li>
+                </ol>
             </template>
 
             <template v-else>
