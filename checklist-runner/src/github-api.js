@@ -4,7 +4,7 @@
 
 let personal_access_token = sessionStorage.getItem('pat')||'';
 
-let error_reporter = () => {};
+let error_reporter = () => true;
 
 let callbacks = [], callback_id = 0;
 
@@ -39,10 +39,13 @@ function github_send(url,init,onerror) {
         fetch(`https://api.github.com${url}`,init)
             .then( response => {
                 if ( !response.ok ) {
-                    onerror
-                        ? onerror(response.statusText)
-                        : error_reporter(`https://api.github.com${url}: ${response.statusText}`)
-                    throw new Error("Request failed: " + response.statusText);
+                    if (
+                        onerror
+                            ? onerror(response.statusText)
+                            : error_reporter(`https://api.github.com${url}: ${response.statusText}`)
+                    ) {
+                        throw new Error("Request failed: " + response.statusText);
+                    }
                 }
                 return response;
             })
@@ -57,8 +60,8 @@ function github_send(url,init,onerror) {
             )
     );
 }
-function github_get(url,cache) {
-    return github_send(url,{cache: cache||'default'})
+function github_get(url,cache,onerror) {
+    return github_send(url,{cache: cache||'default'},onerror)
         .then( response => response.json() )
 }
 function github_delete(url) {
@@ -100,8 +103,8 @@ export default {
 
     prepare_steps(steps) {
         const get_urls = {},
-              get_url  = url => {
-                  if ( !get_urls[url] ) get_urls[url] = github_get(url);
+              get_url  = (url,onerror) => {
+                  if ( !get_urls[url] ) get_urls[url] = github_get(url,undefined,onerror);
                   return get_urls[url];
               };
         steps.forEach( step => {
