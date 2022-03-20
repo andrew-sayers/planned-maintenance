@@ -136,7 +136,7 @@
                               :key="n"
                             >
 
-                                <th style="text-transform:capitalize">{{action.action.replace(/_.*/,'')}}</th>
+                                <th style="text-transform:capitalize">{{action.action.replace(/(^add_|_.*)/,'')}}</th>
 
                                 <template v-if="action.action == 'check_site'">
                                     <td>
