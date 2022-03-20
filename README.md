@@ -74,7 +74,7 @@ jobs:
         uses: your-username/your-planned-maintenance-info@main
       - name: Is now a good time?
         id: check
-        uses: andrew-sayers/planned-maintenance@v1.0.0
+        uses: andrew-sayers/planned-maintenance@v2.0.0
         with:
           maintenance-window-start: ${{ steps.settings.outputs.maintenance-window-start }}
           maintenance-window-duration: ${{ steps.settings.outputs.maintenance-window-duration }}
